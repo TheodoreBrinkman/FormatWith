@@ -171,6 +171,18 @@ namespace FormatWithTests
         }
 
         [Fact]
+        public void LeftPadTest()
+        {
+            Dictionary<string, object> replacementDictionary = new Dictionary<string, object>()
+            {
+                ["LeftPadTestValue"] = LeftPadTestValue
+            };
+            System.String expectedValue = "'       1,234.56'";
+            Assert.Equal(System.String.Format(LeftPadTestFormatComposite, LeftPadTestValue), exectedValue);
+            Assert.Equal(LeftPadTestValue.FormatWith(replacementDictionary), expectedValue);
+        }
+        
+        [Fact]
         public void SpeedTest()
         {
             Dictionary<string, string> replacementDictionary = new Dictionary<string, string>()
