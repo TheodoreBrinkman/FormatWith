@@ -51,6 +51,16 @@ namespace FormatWith.Internal
                         tokenKey = thisToken.Value.Substring(0, separatorIdx);
                         format = thisToken.Value.Substring(separatorIdx + 1);
                     }
+                    /// Parse out alignment
+                    string alignment = null;
+                    var alignmentIdx = tokenKey.LastIndexOf(",", StringComparison.Ordinal);
+                    If(alignmentIdx > -1)
+                    {
+                        tokeyKey = thisToken.Value.Substring(0, alignmentIdx);
+                        alignment = thisToken.Value.Substring(alignmentIdx + 1);
+                    }
+                    /// assemble full format string ([,ALIGNMENT][:FORMAT])
+                    string formatString = ((alignmentIdx > -1) ? $",{alignment}" : System.String.Empty) + ((separatorIdx > -1) ? $":{format}" : System.String.Empty)
 
                     // append the replacement for this parameter
                     ReplacementResult replacementResult = handler(tokenKey, format);
@@ -65,7 +75,7 @@ namespace FormatWith.Internal
                         }
                         else
                         {
-                            resultBuilder.AppendFormat("{0:" + format + "}", replacementResult.Value);
+                            resultBuilder.AppendFormat("{0" + formatString + "}", replacementResult.Value);
                         }
                     }
                     else
@@ -141,6 +151,16 @@ namespace FormatWith.Internal
                         tokenKey = thisToken.Value.Substring(0, separatorIdx);
                         format = thisToken.Value.Substring(separatorIdx + 1);
                     }
+                    /// Parse out alignment
+                    string alignment = null;
+                    var alignmentIdx = tokenKey.LastIndexOf(",", StringComparison.Ordinal);
+                    If(alignmentIdx > -1)
+                    {
+                        tokeyKey = thisToken.Value.Substring(0, alignmentIdx);
+                        alignment = thisToken.Value.Substring(alignmentIdx + 1);
+                    }
+                    /// assemble full format string ([,ALIGNMENT][:FORMAT])
+                    string formatString = ((alignmentIdx > -1) ? $",{alignment}" : System.String.Empty) + ((separatorIdx > -1) ? $":{format}" : System.String.Empty)
 
                     // append the replacement for this parameter
                     ReplacementResult replacementResult = handler(tokenKey);
@@ -152,7 +172,7 @@ namespace FormatWith.Internal
                             return "{" + placeholderIndex + "}";
                         }
 
-                        return "{" + placeholderIndex + ":" + format + "}";
+                        return "{" + placeholderIndex + formatString + "}";
                     }
 
                     // append the replacement for this parameter
