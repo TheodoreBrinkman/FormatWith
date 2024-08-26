@@ -48,19 +48,19 @@ namespace FormatWith.Internal
                     var separatorIdx = tokenKey.IndexOf(":", StringComparison.Ordinal);
                     if (separatorIdx > -1)
                     {
-                        tokenKey = thisToken.Value.Substring(0, separatorIdx);
                         format = thisToken.Value.Substring(separatorIdx + 1);
+                        tokenKey = thisToken.Value.Substring(0, separatorIdx);
                     }
                     /// Parse out alignment
                     string alignment = null;
                     var alignmentIdx = tokenKey.LastIndexOf(",", StringComparison.Ordinal);
-                    If(alignmentIdx > -1)
+                    if(alignmentIdx > -1)
                     {
-                        tokeyKey = thisToken.Value.Substring(0, alignmentIdx);
                         alignment = thisToken.Value.Substring(alignmentIdx + 1);
+                        tokenKey = thisToken.Value.Substring(0, alignmentIdx);
                     }
                     /// assemble full format string ([,ALIGNMENT][:FORMAT])
-                    string formatString = ((alignmentIdx > -1) ? $",{alignment}" : System.String.Empty) + ((separatorIdx > -1) ? $":{format}" : System.String.Empty)
+                    string formatString = ((alignmentIdx > -1) ? $",{alignment}" : System.String.Empty) + ((separatorIdx > -1) ? $":{format}" : System.String.Empty);
 
                     // append the replacement for this parameter
                     ReplacementResult replacementResult = handler(tokenKey, format);
