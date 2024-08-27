@@ -69,7 +69,7 @@ namespace FormatWith.Internal
                     {
                         // the key exists, add the replacement value
                         // this does nothing if replacement value is null
-                        if (string.IsNullOrWhiteSpace(format))
+                        if (string.IsNullOrWhiteSpace(formatString))
                         {
                             resultBuilder.Append(replacementResult.Value);
                         }
@@ -167,7 +167,7 @@ namespace FormatWith.Internal
 
                     string IndexAndFormat()
                     {
-                        if (string.IsNullOrWhiteSpace(format))
+                        if (string.IsNullOrWhiteSpace(formatString))
                         {
                             return "{" + placeholderIndex + "}";
                         }
