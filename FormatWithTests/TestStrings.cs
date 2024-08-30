@@ -33,9 +33,5 @@ namespace FormatWithTests
         public static readonly string TestFormat7Composite = "Today is {0:YYYYMMDD HH:mm}";
         public static readonly DateTime TestFormat7Date = new DateTime(2018, 10, 30, 17, 25, 0);
         public static readonly string TestFormat7Solution = $"Today is {TestFormat7Date:YYYYMMDD HH:mm}";
-
-        public static readonly Decimal LeftPadTestValue = 1234.56;
-        public static readonly string LeftPadTestFormat = "'{LeftPadTestValue,15:#,##.00}'";
-        public static readonly string LeftPadTestFormatComposite = "'{0,15:#,##.00}'";
     }
 }
