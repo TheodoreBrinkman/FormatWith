@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -43,39 +43,22 @@ namespace FormatWith.Internal
                 {
                     // token is a parameter token
                     // perform parameter logic now.
-                    var tokenKey = thisToken.Value;
-                    string format = null;
-                    var separatorIdx = tokenKey.IndexOf(":", StringComparison.Ordinal);
-                    if (separatorIdx > -1)
-                    {
-                        format = thisToken.Value.Substring(separatorIdx + 1);
-                        tokenKey = thisToken.Value.Substring(0, separatorIdx);
-                    }
-                    /// Parse out alignment
-                    string alignment = null;
-                    var alignmentIdx = tokenKey.LastIndexOf(",", StringComparison.Ordinal);
-                    if(alignmentIdx > -1)
-                    {
-                        alignment = thisToken.Value.Substring(alignmentIdx + 1);
-                        tokenKey = thisToken.Value.Substring(0, alignmentIdx);
-                    }
-                    /// assemble full format string ([,ALIGNMENT][:FORMAT])
-                    string formatString = ((alignmentIdx > -1) ? $",{alignment}" : System.String.Empty) + ((separatorIdx > -1) ? $":{format}" : System.String.Empty);
+                    TokenInformation tokenInfo = new TokenInformation(thisToken.Value);
 
                     // append the replacement for this parameter
-                    ReplacementResult replacementResult = handler(tokenKey, format);
-                
+                    ReplacementResult replacementResult = handler(tokenInfo.TokenKey, tokenInfo.Format);
+
                     if (replacementResult.Success)
                     {
                         // the key exists, add the replacement value
                         // this does nothing if replacement value is null
-                        if (string.IsNullOrWhiteSpace(formatString))
+                        if (string.IsNullOrWhiteSpace(tokenInfo.FormatString))
                         {
                             resultBuilder.Append(replacementResult.Value);
                         }
                         else
                         {
-                            resultBuilder.AppendFormat("{0" + formatString + "}", replacementResult.Value);
+                            resultBuilder.AppendFormat("{0" + tokenInfo.FormatString + "}", replacementResult.Value);
                         }
                     }
                     else
@@ -143,36 +126,19 @@ namespace FormatWith.Internal
                 {
                     // token is a parameter token
                     // perform parameter logic now.
-                    var tokenKey = thisToken.Value;
-                    string format = null;
-                    var separatorIdx = tokenKey.IndexOf(":", StringComparison.Ordinal);
-                    if (separatorIdx > -1)
-                    {
-                        format = thisToken.Value.Substring(separatorIdx + 1);
-                        tokenKey = thisToken.Value.Substring(0, separatorIdx);
-                    }
-                    /// Parse out alignment
-                    string alignment = null;
-                    var alignmentIdx = tokenKey.LastIndexOf(",", StringComparison.Ordinal);
-                    If(alignmentIdx > -1)
-                    {
-                        alignment = thisToken.Value.Substring(alignmentIdx + 1);
-                        tokenKey = thisToken.Value.Substring(0, alignmentIdx);
-                    }
-                    /// assemble full format string ([,ALIGNMENT][:FORMAT])
-                    string formatString = ((alignmentIdx > -1) ? $",{alignment}" : System.String.Empty) + ((separatorIdx > -1) ? $":{format}" : System.String.Empty);
+                    TokenInformation tokenInfo = new TokenInformation(thisToken.Value);
 
                     // append the replacement for this parameter
-                    ReplacementResult replacementResult = handler(tokenKey);
+                    ReplacementResult replacementResult = handler(tokenInfo.TokenKey);
 
                     string IndexAndFormat()
                     {
-                        if (string.IsNullOrWhiteSpace(formatString))
+                        if (string.IsNullOrWhiteSpace(tokenInfo.FormatString))
                         {
                             return "{" + placeholderIndex + "}";
                         }
 
-                        return "{" + placeholderIndex + formatString + "}";
+                        return "{" + placeholderIndex + tokenInfo.FormatString + "}";
                     }
 
                     // append the replacement for this parameter
