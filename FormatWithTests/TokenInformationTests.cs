@@ -118,5 +118,45 @@ namespace FormatWithTests
 
         #endregion
 
+        #region FormatWith
+
+        [Fact]
+        public void FormatWith_DateTest_FormatOnly()
+        {
+            System.Collections.Generic.Dictionary<string, object> replacmentValues = new System.Collections.Generic.Dictionary<string, object>();
+            replacmentValues.Add(testTokenKey, testDate);
+
+            string expectedResult = "'2024-08-29'";
+            string result = "'{token:yyyy-MM-dd}'".FormatWith(replacmentValues);
+
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public void FormatWith_DateTest_FormatAndLeftPad()
+        {
+            System.Collections.Generic.Dictionary<string, object> replacmentValues = new System.Collections.Generic.Dictionary<string, object>();
+            replacmentValues.Add(testTokenKey, testDate);
+
+            string expectedResult = "'     2024-08-29'";
+            string result = "'{token,15:yyyy-MM-dd}'".FormatWith(replacmentValues);
+
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public void FormatWith_DateTest_FormatAndRightPad()
+        {
+            System.Collections.Generic.Dictionary<string, object> replacmentValues = new System.Collections.Generic.Dictionary<string, object>();
+            replacmentValues.Add(testTokenKey, testDate);
+
+            string expectedResult = "'2024-08-29     '";
+            string result = "'{token,-15:yyyy-MM-dd}'".FormatWith(replacmentValues);
+
+            Assert.Equal(result, expectedResult);
+        }
+
+        #endregion
+
     }   // end class
 }   // end namespace
